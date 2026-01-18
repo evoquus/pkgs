@@ -1,0 +1,51 @@
+# Maintainer: Arch Linux Team
+# Contributor: Levente Polyak <anthraxx[at]archlinux[dot]org>
+# Contributor: Hadean Eeon <hadean-eon-dev[at]proton[dot]me>
+
+pkgname=base-devel-flex
+pkgver=1
+pkgrel=4
+pkgdesc='Basic tools to build Arch Linux packages'
+url='https://www.archlinux.org'
+arch=('any')
+license=('GPL')
+options=('!debug')
+install=base-devel-flex.install
+# use command -v to detect which priv_esc
+# to use and adapt /etc/makepkg.conf in accordance
+depends=(
+  archlinux-keyring
+  autoconf
+  automake
+  binutils
+  bison
+  debugedit
+  fakeroot
+  file
+  findutils
+  flex
+  gawk
+  gcc
+  gettext
+  grep
+  groff
+  gzip
+  libtool
+  m4
+  make
+  pacman
+  patch
+  pkgconf
+  sed
+  texinfo
+  which
+)
+# since makepkg respects 'PACMAN_AUTH'
+# key=val for other priv methods in /etc/makepkg.conf
+# alternatives can often be symlinked or shimmed too
+optdepends=(
+  'sudo: default priv esc'
+  'doas: bsd sudo alternative'
+)
+
+# vim: ts=2 sw=2 et:

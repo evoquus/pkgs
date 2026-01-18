@@ -1,0 +1,19 @@
+_configure_pacman_auth() {
+    local conf="/etc/makepkg.conf"
+    local priv_esc=""
+
+    command -v sudo &>/dev/null && priv_esc="sudo"
+    command -v doas &>/dev/null && priv_esc="doas"
+
+    # last takes precendence but usually user only has one
+    # installed on the system this could inlcude more options tho
+    
+    echo "Using: $priv_esc"
+    [[ -z "$priv_esc" ]] && return
+
+    tac "$conf" | sed "0,/^#\?PACMAN_AUTH=/{s/^#\?PACMAN_AUTH=.*/PACMAN_AUTH=($priv_esc)/}" | tac > "$conf.tmp"
+    mv "$conf.tmp" "$conf"
+}
+
+post_install() { _configure_pacman_auth; }
+post_upgrade() { _configure_pacman_auth; }
