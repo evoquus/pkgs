@@ -4,7 +4,7 @@
 
 pkgname=base-devel-flex
 pkgver=1
-pkgrel=4
+pkgrel=5
 pkgdesc='Basic tools to build Arch Linux packages'
 url='https://www.archlinux.org'
 arch=('any')
