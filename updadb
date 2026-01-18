@@ -1,0 +1,14 @@
+#!/bin/bash
+
+for i in "$@"; do
+	case $i in
+	-r|--refresh)
+	shift
+	repo-add evoquus.db.tar.gz *//*.pkg.tar.zst
+	rm -f *.old
+	exit 0
+	;;
+	esac
+done
+
+	
