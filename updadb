@@ -4,7 +4,7 @@ for i in "$@"; do
 	case $i in
 	-r|--refresh)
 	shift
-	repo-add evoquus.db.tar.gz *//*.pkg.tar.zst
+	repo-add --sign evoquus.db.tar.gz *//*.pkg.tar.zst
 	rm -f *.old
 	exit 0
 	;;
