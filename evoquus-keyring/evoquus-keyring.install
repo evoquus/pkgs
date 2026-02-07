@@ -1,8 +1,16 @@
 post_install() {
-    pacman-key --add /usr/share/pacman/keyrings/evoquus.gpg
-    pacman-key --lsign-key 701F3C478B1E20DD329319F7B20A67FF63B2B263
+    if [ -x /usr/bin/pacman-key ]; then
+        pacman-key --add /usr/share/pacman/keyrings/evoquus.gpg
+        pacman-key --lsign-key 701F3C478B1E20DD329319F7B20A67FF63B2B263
+    fi
 }
 
 post_upgrade() {
     post_install
+}
+
+post_remove() {
+    if [ -x /usr/bin/pacman-key ]; then
+        pacman-key --delete 701F3C478B1E20DD329319F7B20A67FF63B2B263
+    fi
 }
