@@ -1,0 +1,17 @@
+# Maintainer: Hadean Eeon <hadean-eon-dev[at]proton[dot]me>
+
+pkgname=evoquus-keyring
+pkgver=1
+pkgrel=1
+pkgdesc='Evoquus repository PGP keyring'
+url='https://evoquus.com'
+arch=('any')
+license=('GPL')
+install=evoquus-keyring.install
+
+source=('evoquus.gpg')
+sha256sums=('SKIP')
+
+package() {
+    install -Dm644 evoquus.gpg "$pkgdir/usr/share/pacman/keyrings/evoquus.gpg"
+}
