@@ -4,7 +4,7 @@
 
 pkgname=base-devel-flex
 pkgver=1
-pkgrel=5
+pkgrel=6
 pkgdesc='Basic tools to build Arch Linux packages'
 url='https://www.archlinux.org'
 arch=('any')
@@ -46,6 +46,7 @@ depends=(
 optdepends=(
   'sudo: default priv esc'
   'doas: bsd sudo alternative'
+  'systemd: run0 priv esc'
 )
 
 # vim: ts=2 sw=2 et:
