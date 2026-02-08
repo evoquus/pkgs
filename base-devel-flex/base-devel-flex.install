@@ -2,21 +2,27 @@ _configure_pacman_auth() {
     local conf="/etc/makepkg.conf"
     local priv_esc=""
 
-    # Check: doas > sudo > su (fallback)
-    # Inspired by makepkg's PACMAN_AUTH fallback logic
-    if command -v doas &>/dev/null; then
+    # Check: run0 > doas > sudo > su (fallback)
+    # Prefer modern tools first
+    if command -v run0 &>/dev/null; then
+        priv_esc="run0"
+    elif command -v doas &>/dev/null; then
         priv_esc="doas"
     elif command -v sudo &>/dev/null; then
         priv_esc="sudo"
     elif command -v su &>/dev/null; then
         # su requires special syntax: su -c '%c' root
-        # %c is replaced by the command to run
         priv_esc="su -c '%c' root"
+    else
+        echo "Warning: No privilege escalation tool found"
+        return 1
     fi
+
     echo "Configuring PACMAN_AUTH with: $priv_esc"
-	# note use tac since its the last line of the file
-    tac "$conf" | sed "0,/^#\?PACMAN_AUTH=/{s/^#\?PACMAN_AUTH=.*/PACMAN_AUTH=($priv_esc)/}" | tac > "$conf.tmp"
-    mv "$conf.tmp" "$conf"
+
+    # Edit last occurrence of PACMAN_AUTH (commented or not)
+    tac "$conf" | sed "0,/^#\?PACMAN_AUTH=/{s/^#\?PACMAN_AUTH=.*/PACMAN_AUTH=($priv_esc)/}" | tac > "$conf.tmp" \
+        && mv "$conf.tmp" "$conf"
 }
 
 post_install() { _configure_pacman_auth; }
